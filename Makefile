@@ -3,8 +3,8 @@
 # chnam - change the filenames of multiple files
 #
 # @(#) $Revision: 1.1 $
-# @(#) $Id: Makefile,v 1.1 2001/10/26 14:52:45 chongo Exp $
-# @(#) $Source: /usr/local/src/cmd/chnam/RCS/Makefile,v $
+# @(#) $Id: Makefile,v 1.1 2006/09/07 23:51:55 chongo Exp $
+# @(#) $Source: /usr/local/src/bin/chnam/RCS/Makefile,v $
 #
 # Copyright (c) 2006 by Landon Curt Noll.  All Rights Reserved.
 #
