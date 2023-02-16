@@ -12,12 +12,12 @@
 #  under the same terms as Perl itself.
 #
 # Larry(?)'s RCS header:
-#  RCSfile: rename,v   Revision: 4.1   Date: 92/08/07 17:20:30 
+#  RCSfile: rename,v   Revision: 4.1   Date: 92/08/07 17:20:30
 #
 # Robin Barker RCS hrader:
 # RCSfile: rename,v Revision: 1.5 $ 1998/12/18 16:16:31
 #
-# Log: rename,v 
+# Log: rename,v
 # Revision 1.5  1998/12/18 16:16:31  rmb1
 # moved to perl/source
 # changed man documentation to POD
@@ -91,7 +91,7 @@ B<chnam> S<[ B<-v> ]> S<[ B<-n> ]> S<[ B<-f> ]> I<perlexpr> S<[ I<files> ]>
 C<chnam>
 Changes the filenames supplied according to the rule specified as the
 first argument.
-The I<perlexpr> 
+The I<perlexpr>
 argument is a Perl expression which is expected to modify the C<$_>
 string in Perl for at least some of the filenames specified.
 If a given filename is not modified by the expression, it will not be
@@ -144,7 +144,7 @@ If you give an invalid Perl expression you'll get a syntax error.
 
 =head1 BUGS
 
-The original Larry Wall C<rename> did not check for the existence of 
+The original Larry Wall C<rename> did not check for the existence of
 target filenames, so had to be used with care.  Robin Barker fixed that.
 Linux already had a rename utility so this tool was renamed to C<chnam>.
 
