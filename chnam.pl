@@ -1,4 +1,5 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl -w
+#
 # chnam - change the names of files
 #
 # The chnam tool is almost identical to Robin Barker's rename tool.
