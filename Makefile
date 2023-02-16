@@ -1,8 +1,8 @@
-#!/usr/bin/end make
+#!/usr/bin/env make
 #
 # chnam - change the filenames of multiple files
 #
-# Copyright (c) 2006 by Landon Curt Noll.  All Rights Reserved.
+# Copyright (c) 2006,2023 by Landon Curt Noll.  All Rights Reserved.
 #
 # Permission to use, copy, modify, and distribute this software and
 # its documentation for any purpose and without fee is hereby granted,
@@ -26,9 +26,12 @@
 #
 # Share and enjoy!
 
-SHELL=/bin/sh
+SHELL= bash
 INSTALL= install
-BINMODE=0555
+BINMODE= 0555
+RM= rm
+CP= cp
+CHMOD= chmod
 
 DESTBIN=/usr/local/bin
 
@@ -37,9 +40,9 @@ TARGETS= chnam
 all: ${TARGETS}
 
 chnam: chnam.pl
-	-rm -f $@
-	cp $@.pl $@
-	chmod +x $@
+	${RM} -f $@
+	${CP} $@.pl $@
+	${CHMOD} +x $@
 
 install: all
 	${INSTALL} -c -m ${BINMODE} ${TARGETS} ${DESTBIN}
@@ -47,4 +50,4 @@ install: all
 clean:
 
 clobber: clean
-	-rm -f ${TARGETS}
+	${RM} -f ${TARGETS}
