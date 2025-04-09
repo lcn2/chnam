@@ -1,22 +1,39 @@
-#!/usr/bin/env perl -w
+##!/usr/bin/env perl
 #
 # chnam - change the names of files
 #
-# The chnam tool is almost identical to Robin Barker's rename tool.
-# It was renamed from rename to chnam because Linux has a less useful
-# rename utility.
+# chman is Copyright (C) 1992,1998,2006,2023,2025, Larry Wall, Robin Barker, and Landon Curt Noll
+#
+# This code is free software; you can redistribute it and/or modify it
+# under the same terms as Perl 5.10.0. For more details, see the full text
+# of the licenses in the directory LICENSES.
+#
+# Disclaimer of Warranty: THE CODE IS PROVIDED BY THE COPYRIGHT
+# HOLDER AND CONTRIBUTORS "AS IS' AND WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTIES. THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+# PARTICULAR PURPOSE, OR NON-INFRINGEMENT ARE DISCLAIMED TO THE EXTENT
+# PERMITTED BY YOUR LOCAL LAW. UNLESS REQUIRED BY LAW, NO COPYRIGHT HOLDER
+# OR CONTRIBUTOR WILL BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, OR
+# CONSEQUENTIAL DAMAGES ARISING IN ANY WAY OUT OF THE USE OF THE PACKAGE,
+# EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+###
+#
+# Credit:
 #
 #  This script was developed by Robin Barker (Robin.Barker@npl.co.uk),
-#  from Larry Wall's original script eg/rename from the perl source.
+#  from Larry Wall's original script e.g., rename (now chnam) from the perl source.
 #
 #  This script is free software; you can redistribute it and/or modify it
 #  under the same terms as Perl itself.
 #
 # Larry(?)'s RCS header:
-#  RCSfile: rename,v   Revision: 4.1   Date: 92/08/07 17:20:30
+# RCSfile: rename,v   Revision: 4.1   Date: 92/08/07 17:20:30
 #
 # Robin Barker RCS hrader:
 # RCSfile: rename,v Revision: 1.5 $ 1998/12/18 16:16:31
+#
+# See: http://www.greenfly.org/rename
 #
 # Log: rename,v
 # Revision 1.5  1998/12/18 16:16:31  rmb1
@@ -35,20 +52,85 @@
 # Revision 1.1  1997/02/27  15:48:51  rmb1
 # Initial revision
 #
+# Mods by Landon Curt Noll:
+#
+# The chnam tool is almost identical to Robin Barker's rename tool.
+# It was renamed from rename to chnam because Linux has a less useful
+# rename utility.
+#
+# Releasing chnam under the Perl Artistic License 2.0 because the code
+# contains the line "under the same terms as Perl itself" and Artistic License 2.0
+# is the current Perl license.
+#
+###
+#
+# chongo (Landon Curt Noll) /\oo/\
+#
+# http://www.isthe.com/chongo/index.html
+# https://github.com/lcn2
+#
+# Share and enjoy!  :-)
+
 
 use strict;
 
 use Getopt::Long;
 Getopt::Long::Configure('bundling');
+use File::Basename;
 
-my ($verbose, $no_act, $force, $op);
+# version
+#
+my $VERSION = "1.5.1 2025-04-09";
 
-die "Usage: chnam [-v] [-n] [-f] perlexpr [filenames]\n"
+my $NAME = basename($0);
+
+my ($opt_h, $verbose, $opt_V, $no_act, $force, $op);
+
+my $usage = "$NAME [-h] [-v lvl] [-V] [-f] perlexpr [filenames]";
+my $help = qq{$usage
+
+    -h          print help and exit
+    -v          verbose / debug level
+    -V          print version and exit
+
+    -n		do not rename (def: rename)
+
+    -f		force (def: do not force)
+
+    perlexpr	    perl expressionb
+    filenames ...   files to rename
+
+$NAME version: $VERSION};
+
+die "invalid command line\nusage: $help\n"
     unless GetOptions(
+	'h' => \$opt_h,
 	'v|verbose' => \$verbose,
+	'V' => \$opt_V,
 	'n|no-act'  => \$no_act,
 	'f|force'   => \$force,
-    ) and $op = shift;
+    );
+
+# parse -h
+#
+if ($opt_h) {
+    print "$help\n";
+    exit(0);
+}
+
+# parse -V
+#
+if ($opt_V) {
+    print "$VERSION\n";
+    exit(0);
+}
+
+# parse args
+#
+if ($#ARGV < 0) {
+    die "missing required perlexpr\nusage: $help\n"
+}
+$op = shift;
 
 $verbose++ if $no_act;
 
@@ -148,5 +230,13 @@ If you give an invalid Perl expression you'll get a syntax error.
 The original Larry Wall C<rename> did not check for the existence of
 target filenames, so had to be used with care.  Robin Barker fixed that.
 Linux already had a rename utility so this tool was renamed to C<chnam>.
+
+The chnam tool is almost identical to Robin Barker's rename tool.
+It was renamed from rename to chnam because Linux has a less useful
+rename utility.
+
+Releasing chnam under the Perl Artistic License 2.0 because the code
+contains the line "under the same terms as Perl itself" and Artistic License 2.0
+is the current Perl license.
 
 =cut

@@ -2,52 +2,92 @@
 #
 # chnam - change the filenames of multiple files
 #
-# Copyright (c) 2006,2023 by Landon Curt Noll.  All Rights Reserved.
+# chman is Copyright (C) 1992,1998,2006,2023,2025, Larry Wall, Robin Barker, and Landon Curt Noll
 #
-# Permission to use, copy, modify, and distribute this software and
-# its documentation for any purpose and without fee is hereby granted,
-# provided that the above copyright, this permission notice and text
-# this comment, and the disclaimer below appear in all of the following:
+# This code is free software; you can redistribute it and/or modify it
+# under the same terms as Perl 5.10.0. For more details, see the full text
+# of the licenses in the directory LICENSES.
 #
-#       supporting documentation
-#       source copies
-#       source works derived from this source
-#       binaries derived from this source or from derived source
+# Disclaimer of Warranty: THE CODE IS PROVIDED BY THE COPYRIGHT
+# HOLDER AND CONTRIBUTORS "AS IS' AND WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTIES. THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+# PARTICULAR PURPOSE, OR NON-INFRINGEMENT ARE DISCLAIMED TO THE EXTENT
+# PERMITTED BY YOUR LOCAL LAW. UNLESS REQUIRED BY LAW, NO COPYRIGHT HOLDER
+# OR CONTRIBUTOR WILL BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, OR
+# CONSEQUENTIAL DAMAGES ARISING IN ANY WAY OUT OF THE USE OF THE PACKAGE,
+# EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# LANDON CURT NOLL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
-# INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO
-# EVENT SHALL LANDON CURT NOLL BE LIABLE FOR ANY SPECIAL, INDIRECT OR
-# CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
-# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-# OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-# PERFORMANCE OF THIS SOFTWARE.
+# chongo (Landon Curt Noll) /\oo/\
 #
-# chongo <was here> /\oo/\
+# http://www.isthe.com/chongo/index.html
+# https://github.com/lcn2
 #
-# Share and enjoy!
+# Share and enjoy!  :-)
 
-SHELL= bash
-INSTALL= install
-BINMODE= 0555
-RM= rm
-CP= cp
+
+#############
+# utilities #
+#############
+
+CC= cc
 CHMOD= chmod
+CP= cp
+ID= id
+INSTALL= install
+RM= rm
+SHELL= bash
 
-DESTBIN=/usr/local/bin
+
+######################
+# target information #
+######################
+
+# V=@:  do not echo debug statements (quiet mode)
+# V=@   echo debug statements (debug / verbose mode)
+#
+V=@:
+#V=@
+
+DESTDIR= /usr/local/bin
 
 TARGETS= chnam
 
+
+######################################
+# all - default rule - must be first #
+######################################
+
 all: ${TARGETS}
+	${V} echo DEBUG =-= $@ start =-=
+	${V} echo DEBUG =-= $@ end =-=
 
-chnam: chnam.pl
-	${RM} -f $@
-	${CP} $@.pl $@
-	${CHMOD} +x $@
 
-install: all
-	${INSTALL} -c -m ${BINMODE} ${TARGETS} ${DESTBIN}
+#################################################
+# .PHONY list of rules that do not create files #
+#################################################
+
+.PHONY: all configure clean clobber install
+
+
+###################################
+# standard Makefile utility rules #
+###################################
+
+configure:
+	${V} echo DEBUG =-= $@ start =-=
+	${V} echo DEBUG =-= $@ end =-=
 
 clean:
+	${V} echo DEBUG =-= $@ start =-=
+	${V} echo DEBUG =-= $@ end =-=
 
 clobber: clean
-	${RM} -f ${TARGETS}
+	${V} echo DEBUG =-= $@ start =-=
+	${V} echo DEBUG =-= $@ end =-=
+
+install: all
+	${V} echo DEBUG =-= $@ start =-=
+	@if [[ $$(${ID} -u) != 0 ]]; then echo "ERROR: must be root to make $@" 1>&2; exit 2; fi
+	${INSTALL} -d -m 0755 ${DESTDIR}
+	${INSTALL} -m 0555 ${TARGETS} ${DESTDIR}
+	${V} echo DEBUG =-= $@ end =-=
