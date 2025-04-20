@@ -12,7 +12,7 @@ sudo make install
 
 # To use
 
-```sh
+```
 /usr/local/bin/chnam [-h] [-v lvl] [-V] [-f] perlexpr [filenames]
 
     -h          print help and exit
